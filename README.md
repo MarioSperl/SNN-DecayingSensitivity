@@ -2,7 +2,7 @@
 Code for numerical experiments on separable structured neural networks (S-NNs), see Mario Sperl, Luca Saluzzi, Dante Kalise, Lars Grüne, “Separable Structured Neural Networks for Functions with Decaying Sensitivity,” 2025. arXiv:2502.08559
 
 A thorough demonstration of how to work with this project is in 
-[this example](examples/train_custom_functions.py). The fastest thing to do to
+[this example](training/train_custom_functions.py). The fastest thing to do to
 start training is to duplicate this example and adjust the parameters. Each
 element of the example is documented below.
 
