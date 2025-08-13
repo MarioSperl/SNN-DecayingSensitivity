@@ -65,10 +65,10 @@ def plot(name, model, param, V, axis1=0, axis2=1, zmin=-10.,
     cmap.set_bad('none')  # Set masked values as transparent
 
     # Add labels and adjust the z-axis limits
-    ax.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
-    ax.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
-    # ax.set_xlabel(r'$x_{}$'.format(axis1+1), fontsize = 28, labelpad = 15)
-    # ax.set_ylabel(r'$x_{}$'.format(axis2+1), fontsize = 28, labelpad = 15)
+    #ax.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
+    #ax.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
+    ax.set_xlabel(r'$x_{}$'.format(axis1+1), fontsize = 28, labelpad = 15)
+    ax.set_ylabel(r'$x_{}$'.format(axis2+1), fontsize = 28, labelpad = 15)
     #ax.set_xlabel(r'$x_{}$'.format(1), fontsize = 28, labelpad = 15)
     #ax.set_ylabel(r'$x_{}$'.format(2), fontsize = 28, labelpad = 15)
     ax.set_title(r'$W(x; \theta)$', fontsize = 28, y=1.0, pad = pad) # type: ignore
@@ -88,7 +88,7 @@ def plot(name, model, param, V, axis1=0, axis2=1, zmin=-10.,
 
 
     #ax.plot_wireframe(X, Y, Z_data, rstride=5, cstride=5)
-    # ax.plot_wireframe(X, Y, Z_data) # type: ignore
+    #ax.plot_wireframe(X, Y, Z_data) # type: ignore
 
     surface = ax.plot_surface(X, Y, Z_predicted, cmap=cmap) # type: ignore
 
@@ -108,10 +108,10 @@ def plot(name, model, param, V, axis1=0, axis2=1, zmin=-10.,
     cmap.set_bad('none')  # Set masked values as transparent
 
     # Add labels and adjust the z-axis limits
-    ax2.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
-    ax2.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
-    # ax2.set_xlabel(r'$x_{}$'.format(axis1+1), fontsize = 28, labelpad = 15)
-    # ax2.set_ylabel(r'$x_{}$'.format(axis2+1), fontsize = 28, labelpad = 15)
+    # ax2.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
+    # ax2.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
+    ax2.set_xlabel(r'$x_{}$'.format(axis1+1), fontsize = 28, labelpad = 15)
+    ax2.set_ylabel(r'$x_{}$'.format(axis2+1), fontsize = 28, labelpad = 15)
     #ax.set_xlabel(r'$x_{}$'.format(1), fontsize = 28, labelpad = 15)
     #ax.set_ylabel(r'$x_{}$'.format(2), fontsize = 28, labelpad = 15)
     ax2.set_title(r'$V(x)$', fontsize = 28, y=1.0, pad= pad) # type: ignore
