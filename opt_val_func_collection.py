@@ -68,30 +68,6 @@ class OptimalValueFunctionCollection():
             return sine_sine_rho_grad_wrapped
         self.V["sine_sine_rho_grad"] = sine_sine_rho_grad
 
-        # Mario's function
-        from itertools import chain, combinations
-        # Powerset recipe from the official itertools page
-        def powerset(iterable):
-            s = list(iterable)
-            return chain.from_iterable(
-                combinations(s, r) for r in range(1, len(s)+1))
-        def marios(rho):
-            def marios_wrapped(x: np.ndarray):
-                sin = np.sin(x)
-                n = len(x)
-                sum = 0
-                for s in powerset(range(n)):
-                    # Possible to calculate dist this way because the sets in
-                    # powerset() are fortunately always sorted.
-                    dist = s[-1]-s[0]
-                    prod = rho**dist
-                    for i in s:
-                        prod *= sin[i]
-                    sum += prod
-                return sum
-            return marios_wrapped
-        self.V["marios"] = marios
-
         # State-dependent LQR
         import scipy.sparse as sp
         import scipy.linalg as la
@@ -136,7 +112,6 @@ class OptimalValueFunctionCollection():
         self.V["state_dependent_lqr"] = state_dependent_lqr
 
         # State-dependent LQR gradient
-        # Implemented by Luca
         from scipy.linalg import solve_continuous_are, solve_continuous_lyapunov
         def state_dependent_lqr_grad(a, b, sigma, gamma, coeff_nl, Q_scale):
             def state_dependent_lqr_grad_wrapped(X: np.ndarray):
