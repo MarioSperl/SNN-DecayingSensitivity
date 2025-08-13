@@ -35,7 +35,6 @@ func_params = {
     "l2_data": [True],
     "continuous": [True],
     "bandwidth": [1],
-    "rho": [0.125],
     "seed": [42],
     "ocp_problem_type": ['general']
 }

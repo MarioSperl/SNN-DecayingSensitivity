@@ -34,7 +34,6 @@ func_params = {
     "dimension": [10],
     "interval_size": [1],
     "l2_data": [True],
-    "continuous": [True],
     "bandwidth": [1],
     "rho": [0.125],
     "seed": [42],
