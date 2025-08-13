@@ -63,58 +63,6 @@ def calculate_derivative(x,P):
     
     return result
 
-
-# Test for generating data in different fashion -> performance did not improve, not implemented any more. 
-
-# def generate_lifted_data(input_dim, separability_order, interval_size = 1, data_size = 1024): 
-#     """ Generate points in an input_dim-dimensional space lifted from a separability_order-dimensional cube.
-
-#     Args:
-#         interval_size (float): The half-length of the interval defining the cube.
-#         data_size (int): The number of points to generate.
-#         input_dim (int): The dimensionality of the N-dimensional space.
-
-#     Returns:
-#         numpy.ndarray: An array containing the generated data points, where each row
-#         represents a data point in the N-dimensional space.
-#     """
-#     # start with generating uniformly distributed points in the low-dimensional cube 
-#     reduced_data_size = int(data_size / (input_dim - separability_order + 1)) # ensure that overall number of returned points ~ data_size 
-    
-
-#     # lift points to the input_dim-dimensional space
-#     lifted_points = []
-
-#     for i in range(0, input_dim - separability_order + 1): 
-#         cube_points = np.random.uniform(-interval_size, interval_size, size=(reduced_data_size, separability_order))
-
-#         for point in cube_points: 
-#             lifted_point = np.zeros(input_dim)
-#             lifted_point[0: separability_order] = point[0 : separability_order]
-#             lifted_point = np.roll(lifted_point, i)
-#             lifted_points.append(lifted_point)
-
-
-
-#     # for point in cube_points:
-#     #     lifted_point = np.zeros(input_dim)  # Initialize an N-dimensional point with zeros
-#     #     for i in range(separability_order):  # Set the first 3 dimensions according to the cube point
-#     #         lifted_point[i] = point[i]
-#     #     lifted_points.append(lifted_point)
-
-#     #     # Generate N-2 additional points
-#     #     for i in range(1, input_dim - separability_order + 1):
-#     #         new_point = np.roll(lifted_point, i)
-#     #         # new_point[-2:] = point
-#     #         lifted_points.append(new_point)
-
-#     # fill with uniformly generated random points to obtain the exact number of desired points 
-#     num_missing_points = data_size - reduced_data_size * (input_dim - separability_order + 1)
-#     lifted_points.extend(np.random.uniform(-interval_size, interval_size, size=(num_missing_points, input_dim))) 
-
-#     return np.array(lifted_points)
-
-# ------------------------------------------------------------------------------
 ### Define Functions for error calcution ###
 @tf.function
 def mean_squared_loss(v_true, v_pred): 
