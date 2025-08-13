@@ -51,7 +51,6 @@ network_params = {
         ['sigmoid', 'tanh', 'softplus',
          'relu', 'softmax', 'selu', 'elu', 'exponential'],
     "compositional_structure": [False],
-    "compositional_mask": [False],
     "graph_distance": [3],
     "data_size": [1024],
     "batch_size": [64],

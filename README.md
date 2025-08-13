@@ -45,7 +45,6 @@ sets in a `ParameterGrid`.
 | layersize | (`int`) Number of units in the hidden layer. For compositional network this is the sub-layer size. |
 | activation_function | (`str`) Activation function for the hidden layer (`['relu', 'tanh', 'softplus', 'swish', 'sigmoid']`)|
 | compositional_structure | (`bool`) Enable flag for compositional network |
-| compositional_mask | (`bool`) Enable flag for masking matrix implementation of the compositional network. This should result in faster training. See [this issue.](https://github.com/MarioSperl/decaying_sensitivity_NN/issues/7) |
 | graph_distane | (`int`) (Relevant only for compositional network) Graph distance |
 | data_size | (`int`) Data size |
 | batch_size | (`int`) Batch size for stochastic gradient descent |
