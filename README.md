@@ -50,7 +50,7 @@ sets in a `ParameterGrid`.
 | test_size | (`int`) Number of points for testing after training |
 | learning_rate | (`int`) Learning rate for the chosen optimizer. `'default'` would be the default learning rate of the chosen optimizer. |
 | weight_loss_grad | (`float`) Weight for loss of gradient |
-| weight_loss-zero | (`float`) Weight for loss at zero |
+| weight_loss_zero | (`float`) Weight for loss at zero |
 | max_epochs | (`int`) Maximum number of training epochs |
 | min_epochs | (`int`) Minimum number of training epochs |
 | optimizer | (`obj`) Keras optimizer object |
