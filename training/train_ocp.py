@@ -36,7 +36,6 @@ func_params = {
     "continuous": [True],
     "bandwidth": [1],
     "seed": [42],
-    "ocp_problem_type": ['general']
 }
 
 collection = OptimalValueFunctionCollection()

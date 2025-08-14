@@ -6,6 +6,16 @@ A thorough demonstration of how to work with this project is in
 start training is to duplicate this example and adjust the parameters. Each
 element of the example is documented below.
 
+## Dependency
+The following dependency is specified in [requirements.txt](requirements.txt)
+```
+numpy==1.26.4
+tensorflow==2.10.0
+matplotlib==3.9.2
+names_generator==0.2.0
+tomli==2.2.1
+```
+
 ## Training Projects
 To train a network on some function, the first thing to set up is a **training
 project.** This can be done by instantiating the `TrainingProject` class. Once a
@@ -37,13 +47,12 @@ sets in a `ParameterGrid`.
 | bandwidth | (`int`) (Relevant only with OCP optimal value function class) Bandwidth parameter for system matrix |
 | rho | (`float`) (Relevant only for custom functions that require this parameter) Rho parameter for sine sine rho and Mario's function |
 | seed | (`int`) Seed for data generation |
-| ocp_problem_type | (`str`: 'general' or 'vehicle') Problem type for OCP |
 
 **Network parameters:**
 | Parameter | Description |
 | --------- | ----------- |
 | layersize | (`int`) Number of units in the hidden layer. For compositional network this is the sub-layer size. |
-| activation_function | (`str`) Activation function for the hidden layer (`['relu', 'tanh', 'softplus', 'swish', 'sigmoid']`)|
+| activation_function | (`str`) Activation function for the hidden layer |
 | compositional_structure | (`bool`) Enable flag for compositional network |
 | graph_distane | (`int`) (Relevant only for compositional network) Graph distance |
 | data_size | (`int`) Data size |
@@ -51,12 +60,12 @@ sets in a `ParameterGrid`.
 | test_size | (`int`) Number of points for testing after training |
 | learning_rate | (`int`) Learning rate for the chosen optimizer. `'default'` would be the default learning rate of the chosen optimizer. |
 | weight_loss_grad | (`float`) Weight for loss of gradient |
-| weight_loss-zero | (`float`) Weight for loss at zero |
+| weight_loss_zero | (`float`) Weight for loss at zero |
 | max_epochs | (`int`) Maximum number of training epochs |
 | min_epochs | (`int`) Minimum number of training epochs |
 | optimizer | (`obj`) Keras optimizer object |
 | tolerance | (`float`) Stop training if the error in the validation data is below this tolerance |
-| factor_early_stopping | (`float`) Factor controlling early stopping (100 disables early stopping) |
+| factor_early_stopping | (`float`) Factor controlling early stopping (`np.inf` disables early stopping) |
 
 ## Logging
 A training project will keep its own log automatically, saved under
