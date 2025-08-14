@@ -12,7 +12,6 @@ warnings.filterwarnings("ignore", message=".*Compiled the loaded model.*")
 
 from auxiliary import *
 from proj_param import ProjectParam
-from compositional import Compositional
 
 class NeuralNetwork: 
     def __init__(self, param: ProjectParam, data_sets, logger):
@@ -24,33 +23,25 @@ class NeuralNetwork:
             shape=(self.param["inputdim"],), name = 'state')
 
         if self.param["compositional_structure"]: 
-            if not self.param["compositional_mask"]:
-                self.xs = [] 
-                basename = 'subsystem_'
+            self.xs = [] 
+            basename = 'subsystem_'
 
-                for i in range(self.param["subnum"]): 
-                    thisname = basename + str(i) 
-                    # min_value = np.max([0, i - param.graph_distance])
-                    start_neighborhood = i 
-                    end_neighborhood = np.min(
-                        [self.param["inputdim"] - 1,
-                        i + self.param["graph_distance"]])
-                    self.xs.append(
-                        layers.Dense(
-                            self.param["sublayersize"],
-                            activation=self.param["activation_function"],
-                            name = thisname)
-                        (self.inputs[:, start_neighborhood:end_neighborhood+1]))
+            for i in range(self.param["subnum"]): 
+                thisname = basename + str(i) 
+                # min_value = np.max([0, i - param.graph_distance])
+                start_neighborhood = i 
+                end_neighborhood = np.min(
+                    [self.param["inputdim"] - 1,
+                    i + self.param["graph_distance"]])
+                self.xs.append(
+                    layers.Dense(
+                        self.param["sublayersize"],
+                        activation=self.param["activation_function"],
+                        name = thisname)
+                    (self.inputs[:, start_neighborhood:end_neighborhood+1]))
 
-                # concatenate the sublayers to compute the scalar output W
-                self.hidden_layer = layers.concatenate(self.xs)
-            else:
-                self.hidden_layer = Compositional(
-                    units_per_sublayer=self.param["sublayersize"],
-                    graph_distance=self.param["graph_distance"],
-                    activation=self.param["activation_function"],
-                    name="Compositional_Layer1"
-                )(self.inputs)
+            # concatenate the sublayers to compute the scalar output W
+            self.hidden_layer = layers.concatenate(self.xs)
         else: 
             self.hidden_layer = layers.Dense(self.param["layersize"],
                 activation=self.param["activation_function"],

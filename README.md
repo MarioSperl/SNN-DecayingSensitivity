@@ -33,7 +33,6 @@ sets in a `ParameterGrid`.
 | dimension | (`int`) Dimension of the input |
 | interval_size | (`float`) Half-length of the interval defining the cube  |
 | l2_data | (`bool`) Generate points uniformly in L2 ball (True) or L-infinity ball (False) |
-| test_size | (`int`) Number of points for testing after training |
 | continuous | (`bool`) (Relevant only with OCP optimal value function class) Solve continuous or discrete time problem |
 | bandwidth | (`int`) (Relevant only with OCP optimal value function class) Bandwidth parameter for system matrix |
 | rho | (`float`) (Relevant only for custom functions that require this parameter) Rho parameter for sine sine rho and Mario's function |
@@ -46,10 +45,10 @@ sets in a `ParameterGrid`.
 | layersize | (`int`) Number of units in the hidden layer. For compositional network this is the sub-layer size. |
 | activation_function | (`str`) Activation function for the hidden layer (`['relu', 'tanh', 'softplus', 'swish', 'sigmoid']`)|
 | compositional_structure | (`bool`) Enable flag for compositional network |
-| compositional_mask | (`bool`) Enable flag for masking matrix implementation of the compositional network. This should result in faster training. See [this issue.](https://github.com/MarioSperl/decaying_sensitivity_NN/issues/7) |
 | graph_distane | (`int`) (Relevant only for compositional network) Graph distance |
 | data_size | (`int`) Data size |
-| batch_size | (`int`) Batch size |
+| batch_size | (`int`) Batch size for stochastic gradient descent |
+| test_size | (`int`) Number of points for testing after training |
 | learning_rate | (`int`) Learning rate for the chosen optimizer. `'default'` would be the default learning rate of the chosen optimizer. |
 | weight_loss_grad | (`float`) Weight for loss of gradient |
 | weight_loss-zero | (`float`) Weight for loss at zero |

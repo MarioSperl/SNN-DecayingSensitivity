@@ -33,10 +33,8 @@ func_params = {
     "dimension": [10],
     "interval_size": [1],
     "l2_data": [True],
-    "test_size": [64],
     "continuous": [True],
     "bandwidth": [1],
-    "rho": [0.125],
     "seed": [42],
     "ocp_problem_type": ['general']
 }
@@ -47,10 +45,10 @@ network_params = {
     "layersize": [32],
     "activation_function": ['sigmoid'],
     "compositional_structure": [True], 
-    "compositional_mask": [False],
     "graph_distance": [3],
     "data_size": [64], 
     "batch_size": [64],
+    "test_size": [64],
     "learning_rate": [0.1],
     "weight_loss_grad": [0.5],
     "weight_loss_zero": [0.5],

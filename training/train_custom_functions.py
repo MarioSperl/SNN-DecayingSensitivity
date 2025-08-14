@@ -30,15 +30,14 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 func_params = {
-    "function": ["marios"],
+    "function": ["sine_sine_rho"],
     "dimension": [10],
     "interval_size": [1],
     "l2_data": [True],
-    "test_size": [64],
-    "continuous": [True],
     "bandwidth": [1],
     "rho": [0.125],
     "seed": [42],
+    "analytical_gradient": [True]
 }
 
 collection = OptimalValueFunctionCollection()
@@ -47,10 +46,10 @@ network_params = {
     "layersize": [32],
     "activation_function": ["sigmoid"],
     "compositional_structure": [True],
-    "compositional_mask": [False],
     "graph_distance": [3],
     "data_size": [64], 
     "batch_size": [64],
+    "test_size": [64],
     "learning_rate": ['default', 0.1],
     "weight_loss_grad": [0.5],
     "weight_loss_zero": [0.5],
