@@ -44,7 +44,7 @@ common between an OCP and a custom-function project.
 **Common function parameters:**
 | Parameter | Description |
 | --------- | ----------- |
-| function | (`str`) Name of the custom optimal value function to be trained on. This should be found in [opt_val_func_collection.py](opt_val_func_collection.py). |
+| function | (`str`) Name of the custom optimal value function to be trained on. The key `"linear-quadratic-ocp"` is for a linear–quadratic optimal control problem with a banded matrix $A$ and $B = Q = R$ as the identity. Other functions include `"sine-sine-rho"`, `"sine-sine-rho-poly"`, and `"state-dependent-lqr"`. The definition of these functions are found and new ones can be defined in [opt_val_func_collection.py](opt_val_func_collection.py). |
 | dimension | (`int`) Dimension of the input |
 | interval_size | (`float`) Half-length of the interval defining the cube |
 | l2_data | (`bool`) Generate points uniformly in L2 ball (True) or L-infinity ball (False) |
@@ -52,7 +52,7 @@ common between an OCP and a custom-function project.
 
 Next, we have the paramters specific to the LQR OCP problem or a custom function:
 
-**Function parameters specific to LQR OCP**
+**Function parameters specific to linear-quadratic-ocp**
 | Parameter | Description |
 | --------- | ----------- |
 | continuous | (`bool`) Solve continuous or discrete time problem |

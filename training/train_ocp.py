@@ -29,7 +29,7 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 func_params = {
-    "function": ['ocp'],
+    "function": ['linear-quadratic-ocp'],
     "dimension": [10],
     "interval_size": [1],
     "l2_data": [True],

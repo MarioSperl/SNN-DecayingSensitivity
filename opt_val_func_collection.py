@@ -166,10 +166,6 @@ class OptimalValueFunctionCollection():
                     else:
                         return OptimalValueFunction(
                             self.V["sine_sine_rho"](func_param["rho"]))
-                            
-                elif key == "marios":
-                    return OptimalValueFunction(
-                        self.V["marios"](func_param["rho"]))
 
                 elif key == "sine_sine_rho_poly":
                     return OptimalValueFunction(
@@ -201,7 +197,7 @@ class OptimalValueFunctionCollection():
                                     Q_scale=func_param["Q_scale"],
                             ), gradient_function=grad)
         
-            elif key == "ocp":
+            elif key == "linear-quadratic-ocp":
                 ocp = OCP(func_param)
                 return OptimalValueFunctionOCP(ocp)
             else:
