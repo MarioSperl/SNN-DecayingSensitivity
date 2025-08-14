@@ -6,6 +6,16 @@ A thorough demonstration of how to work with this project is in
 start training is to duplicate this example and adjust the parameters. Each
 element of the example is documented below.
 
+## Dependency
+The following dependency is specified in [requirements.txt](requirements.txt)
+```
+numpy==1.26.4
+tensorflow==2.10.0
+matplotlib==3.9.2
+names_generator==0.2.0
+tomli==2.2.1
+```
+
 ## Training Projects
 To train a network on some function, the first thing to set up is a **training
 project.** This can be done by instantiating the `TrainingProject` class. Once a
