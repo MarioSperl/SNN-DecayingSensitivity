@@ -7,7 +7,7 @@ start training is to duplicate this example and adjust the parameters. Each
 element of the example is documented below.
 
 ## Dependency
-The following dependency is specified in [requirements.txt](requirements.txt)
+The following dependency is specified in [requirements.txt](requirements.txt):
 ```
 numpy==1.26.4
 tensorflow==2.10.0
@@ -36,17 +36,51 @@ of possible values which would result in a collection of all possible parameter
 sets in a `ParameterGrid`.
 
 ## Parameter List
-**Function parameters:**
+In this project we can train with either an optimal value function of the LQR OCP
+problem or a user-defined custom function. The training script is exactly the same
+except for the function parameters. Below we list the function parameters that are
+common between an OCP and a custom-function project.
+
+**Common function parameters:**
 | Parameter | Description |
 | --------- | ----------- |
 | function | (`str`) Name of the custom optimal value function to be trained on. This should be found in [opt_val_func_collection.py](opt_val_func_collection.py). |
 | dimension | (`int`) Dimension of the input |
-| interval_size | (`float`) Half-length of the interval defining the cube  |
+| interval_size | (`float`) Half-length of the interval defining the cube |
 | l2_data | (`bool`) Generate points uniformly in L2 ball (True) or L-infinity ball (False) |
-| continuous | (`bool`) (Relevant only with OCP optimal value function class) Solve continuous or discrete time problem |
-| bandwidth | (`int`) (Relevant only with OCP optimal value function class) Bandwidth parameter for system matrix |
-| rho | (`float`) (Relevant only for custom functions that require this parameter) Rho parameter for sine sine rho and Mario's function |
 | seed | (`int`) Seed for data generation |
+
+Next, we have the paramters specific to the LQR OCP problem or a custom function:
+
+**Function parameters specific to LQR OCP**
+| Parameter | Description |
+| --------- | ----------- |
+| continuous | (`bool`) Solve continuous or discrete time problem |
+| bandwidth | (`int`) Bandwidth parameter for system matrix |
+
+**Function parameters specific to custom functions**
+| Parameter | Description |
+| --------- | ----------- |
+| analytical_gradient | (`bool`) Flag for whether or not the analytical expression for the gradient of the function is used. If `True` make sure that the gradient of the custom function in use is implemented in [opt_val_func_collection.py](opt_val_func_collection.py). If this is `False` and `weight_loss_grad` is non-zero, the gradient is computed numerically with finite difference. |
+
+Below we list the parameters specific to each custom function:
+
+***Function parameters specific to sine-sine-rho***
+| Parameter | Description |
+| --------- | ----------- |
+| rho | (`float`) $\rho$ parameter for the sine-sine-rho custom function |
+
+***Function parameters specific to state-dependent LQR***
+| Parameter | Description |
+| --------- | ----------- |
+| a | (`float`) $a$ parameter for the state-dependent LQR custom function |
+| b | (`float`) $b$ parameter for the state-dependent LQR custom function |
+| sigma | (`float`) $\sigma$ parameter for the state-dependent LQR custom function |
+| gamma | (`float`) $\gamma$ parameter for the state-dependent LQR custom function |
+| coeff_nl | (`float`) $\mathrm{nl}$ coefficient for the state-dependent LQR custom function |
+| Q_scale | (`float`) scaling parameter for matrix $Q$ |
+
+Finally, we have the parameters that describe the network to be trained:
 
 **Network parameters:**
 | Parameter | Description |
@@ -54,7 +88,7 @@ sets in a `ParameterGrid`.
 | layersize | (`int`) Number of units in the hidden layer. For compositional network this is the sub-layer size. |
 | activation_function | (`str`) Activation function for the hidden layer |
 | compositional_structure | (`bool`) Enable flag for compositional network |
-| graph_distane | (`int`) (Relevant only for compositional network) Graph distance |
+| graph_distance | (`int`) (Relevant only for compositional network) Graph distance |
 | data_size | (`int`) Data size |
 | batch_size | (`int`) Batch size for stochastic gradient descent |
 | test_size | (`int`) Number of points for testing after training |
