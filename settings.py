@@ -9,7 +9,6 @@ class OCP:
         self.statedim = func_param["dimension"] 
         self.interval_size = 1
         self.seed = func_param["seed"]
-        self.ocp_problem_type = func_param["ocp_problem_type"]
         self.continuous = func_param["continuous"]
 
         # -------- matrices for optimal control problem -----------
