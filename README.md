@@ -117,12 +117,27 @@ expensive finite-difference approximation of the gradient vector. The custom
 function can then be used in a training project passing a custom function
 returned from `OptimalValueFunctionCollection.get_func(...)`.
 
-## Examples
-There are multiple example files in the `examples` directory. Here is what they
-aim to do:
+## Training and Testing
+In `training/` we list a few training scripts which would be useful as a
+boilerplate for any training project:
 | File     | Purpose |
 | -------- | ------- |
-| [load_project.py](examples/load_project.py)    | This file demonstrates how to load a training project whose model is already trained and saved |
-| [load_project_ocp.py](examples/load_project_ocp.py)    | Same as `load_project.py` but with an OCP problem and plotting functions |
 | [train_custom_functions.py](training/train_custom_functions.py)    | This file shows the entire workflow of how to train a batch of training projects under a set of parameters |
 | [train_ocp.py](training/train_ocp.py)    | Same as `train_custom_functions.py` but with an OCP problem |
+| [train_ocp.py](training/train_state_dependent_lqr.py)    | Same as `train_custom_functions.py` but with a state-dependent LQR problem |
+
+Similarly, in `testing/` we demonstrate how to load an existing training project
+for further testing. This is done for both a custom function project and an OCP project.
+The scripts are almost identical except for the fact that in `load_project_ocp.py` we also
+demonstrate how to plot the $P$ matrix.
+
+| File     | Purpose |
+| -------- | ------- |
+| [load_project.py](testing/load_project.py)    | This file demonstrates how to load a training project whose model is already trained and saved |
+| [load_project_ocp.py](testing/load_project_ocp.py)    | Same as `load_project.py` but with an OCP problem and plotting functions |
+
+## Examples
+Here we list the training examples found in the paper:
+| File     | Purpose |
+| -------- | ------- |
+| [Figure5_200dimOCP.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 5* |
