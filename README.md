@@ -55,7 +55,7 @@ sets in a `ParameterGrid`.
 | min_epochs | (`int`) Minimum number of training epochs |
 | optimizer | (`obj`) Keras optimizer object |
 | tolerance | (`float`) Stop training if the error in the validation data is below this tolerance |
-| factor_early_stopping | (`float`) Factor controlling early stopping (100 disables early stopping) |
+| factor_early_stopping | (`float`) Factor controlling early stopping (`np.inf` disables early stopping) |
 
 ## Logging
 A training project will keep its own log automatically, saved under
