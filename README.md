@@ -37,7 +37,6 @@ sets in a `ParameterGrid`.
 | bandwidth | (`int`) (Relevant only with OCP optimal value function class) Bandwidth parameter for system matrix |
 | rho | (`float`) (Relevant only for custom functions that require this parameter) Rho parameter for sine sine rho and Mario's function |
 | seed | (`int`) Seed for data generation |
-| ocp_problem_type | (`str`: 'general' or 'vehicle') Problem type for OCP |
 
 **Network parameters:**
 | Parameter | Description |
