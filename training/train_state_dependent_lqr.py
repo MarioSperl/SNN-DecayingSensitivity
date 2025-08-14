@@ -40,7 +40,7 @@ func_params = {
     "seed": [42],
     "interval_size": [1],
     "l2_data": [True],
-    "analytical_gradient": [True]
+    "gradient_provided": [True]
 }
 
 collection = OptimalValueFunctionCollection()

@@ -36,7 +36,7 @@ func_params = {
     "l2_data": [True],
     "rho": [0.125],
     "seed": [42],
-    "analytical_gradient": [True]
+    "gradient_provided": [True]
 }
 
 collection = OptimalValueFunctionCollection()

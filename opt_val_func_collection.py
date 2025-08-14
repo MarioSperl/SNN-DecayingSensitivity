@@ -157,7 +157,7 @@ class OptimalValueFunctionCollection():
             key = func_param["function"]
             if key in self.V.keys():
                 if key == "sine_sine_rho":
-                    if func_param["analytical_gradient"]:
+                    if func_param["gradient_provided"]:
                         return OptimalValueFunction(
                             self.V["sine_sine_rho"](func_param["rho"]),
                             gradient_function=self.V["sine_sine_rho_grad"](
@@ -175,7 +175,7 @@ class OptimalValueFunctionCollection():
                         )
 
                 elif key == "state_dependent_lqr":
-                    if func_param["analytical_gradient"]:
+                    if func_param["gradient_provided"]:
                         grad = self.V["state_dependent_lqr_grad"](
                                         a=func_param["a"],
                                         b=func_param["b"],

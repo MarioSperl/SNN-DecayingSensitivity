@@ -61,7 +61,7 @@ Next, we have the paramters specific to the LQR OCP problem or a custom function
 **Function parameters specific to custom functions**
 | Parameter | Description |
 | --------- | ----------- |
-| analytical_gradient | (`bool`) Flag for whether or not the analytical expression for the gradient of the function is used. If `True` make sure that the gradient of the custom function in use is implemented in [opt_val_func_collection.py](opt_val_func_collection.py). If this is `False` and `weight_loss_grad` is non-zero, the gradient is computed numerically with finite difference. |
+| gradient_provided | (`bool`) Flag for whether or not the analytical expression for the gradient of the function is used. If `True` make sure that the gradient of the custom function in use is implemented in [opt_val_func_collection.py](opt_val_func_collection.py). If this is `False` and `weight_loss_grad` is non-zero, the gradient is computed numerically with finite difference. |
 
 Below we list the parameters specific to each custom function:
 
