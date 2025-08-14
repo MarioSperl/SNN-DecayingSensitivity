@@ -52,7 +52,7 @@ sets in a `ParameterGrid`.
 | Parameter | Description |
 | --------- | ----------- |
 | layersize | (`int`) Number of units in the hidden layer. For compositional network this is the sub-layer size. |
-| activation_function | (`str`) Activation function for the hidden layer (`['relu', 'tanh', 'softplus', 'swish', 'sigmoid']`)|
+| activation_function | (`str`) Activation function for the hidden layer |
 | compositional_structure | (`bool`) Enable flag for compositional network |
 | graph_distane | (`int`) (Relevant only for compositional network) Graph distance |
 | data_size | (`int`) Data size |
