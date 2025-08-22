@@ -105,7 +105,7 @@ class TrainingProject():
             self.V = collection.get_func(func_param)
 
             # Construct OCP object if the optimal value function is 'ocp'
-            if func_param['function'] == 'ocp':
+            if func_param['function'] == 'linear-quadratic-ocp':
                 self.ocp = OCP(func_param)
 
     def train(self):

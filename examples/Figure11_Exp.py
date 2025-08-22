@@ -1,5 +1,6 @@
 """
-An example where we train a network for the OCP optimal value function
+An example where we train a network with a user-specified optimal value
+function.
 """
 import keras.optimizers
 from sklearn.model_selection import ParameterGrid
@@ -29,38 +30,37 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 func_params = {
-    "function": ['ocp'],
-    "dimension": [200],
+    "function": ["sine_sine_rho"],
+    "dimension": [100],
     "interval_size": [1],
     "l2_data": [False],
-    "test_size": [2**19],
-    "continuous": [True],
-    "bandwidth": [1],
+    "rho": [1, 0.5, 0.25, 0.125],
     "seed": [42],
-    "ocp_problem_type": ['general']
+    "gradient_provided": [True]
 }
 
 collection = OptimalValueFunctionCollection()
 
 network_params = {
     "layersize": [16],
-    "activation_function": ['sigmoid'],
-    "compositional_structure": [True], 
-    "compositional_mask": [False],
-    "graph_distance": [10],
-    "data_size": [2**17], 
+    "activation_function": ["sigmoid"],
+    "compositional_structure": [True],
+    "graph_distance": [5],
+    "data_size": [8192], 
     "batch_size": [64],
+    "test_size": [8192],
     "learning_rate": ['default'],
     "weight_loss_grad": [0.5],
     "weight_loss_zero": [0.5],
     "max_epochs": [1000],
     "min_epochs": [15],
     "optimizer": ['adam'],
-    "tolerance": [1e-3],
+    "tolerance": [1e-4],
     "factor_early_stopping": [np.inf],
 }
 
 max_data_size = max(network_params['data_size'])
+seed_value = 42
 
 for func_param in ParameterGrid(func_params):
     best_func_param = None

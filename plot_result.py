@@ -108,8 +108,8 @@ def plot(name, model, param, V, axis1=0, axis2=1, zmin=-10.,
     cmap.set_bad('none')  # Set masked values as transparent
 
     # Add labels and adjust the z-axis limits
-    # ax2.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
-    # ax2.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
+    #ax2.set_xlabel(r'$x_{100}$', fontsize = 28, labelpad = 15)
+    #ax2.set_ylabel(r'$x_{200}$', fontsize = 28, labelpad = 15)
     ax2.set_xlabel(r'$x_{}$'.format(axis1+1), fontsize = 28, labelpad = 15)
     ax2.set_ylabel(r'$x_{}$'.format(axis2+1), fontsize = 28, labelpad = 15)
     #ax.set_xlabel(r'$x_{}$'.format(1), fontsize = 28, labelpad = 15)
@@ -154,7 +154,7 @@ def plot_P_matrix(name, ocp, pad=8):
 
     norms = []
     for i in range(0, ocp.statedim):
-        submatrix = ocp.P[1, i]
+        submatrix = ocp.P[0, i]
         norm = np.linalg.norm(submatrix)
         norms.append(norm)
 
@@ -164,7 +164,7 @@ def plot_P_matrix(name, ocp, pad=8):
     plt.yscale('log')  # Set y-axis to logarithmic scale
     plt.xlabel('$i$', fontsize = 34)
     # plt.ylabel('Norm', fontsize = 28)
-    plt.title(r'$|P[100,i]|$', fontsize = 34, y=1.0, pad = pad) 
+    plt.title(r'$|P[1,i]|$', fontsize = 34, y=1.0, pad = pad) 
     plt.grid(True)
     plt.xticks(fontsize = 20)
     plt.yticks(fontsize = 20)

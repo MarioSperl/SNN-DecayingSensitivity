@@ -16,7 +16,7 @@ from plot_result import plot, plot_P_matrix
 
 # Load the saved project
 proj = TrainingProject()
-proj.load("wonderful_hawking-45160")
+proj.load("200dim_LQR_V2")
 
 # Read the relevant data for data generation
 interval_size = proj.param['interval_size']
@@ -36,5 +36,5 @@ print("Evaluating model...")
 proj.model.evaluate(X, Y, verbose=1);
 
 # Plotting
-plot(proj.name, proj.model, proj.param, proj.V, zmin=-0.1, zmax=6)
+plot(proj.name, proj.model, proj.param, proj.V, zmin=-0.1, zmax=6, axis1=0, axis2=1)
 plot_P_matrix(proj.name, proj.ocp)

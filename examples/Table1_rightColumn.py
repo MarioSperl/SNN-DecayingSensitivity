@@ -1,5 +1,5 @@
 """
-Training for the state-dependent LQR
+An example where we train a network for the OCP optimal value function
 """
 import keras.optimizers
 from sklearn.model_selection import ParameterGrid
@@ -20,7 +20,7 @@ from opt_val_func_collection import OptimalValueFunctionCollection
 import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-fh = logging.FileHandler('train_state_dependent_lqr.log')
+fh = logging.FileHandler('train_custom_functions.log')
 ch = logging.StreamHandler()
 formatter = logging.Formatter('%(message)s')
 fh.setFormatter(formatter)
@@ -29,43 +29,37 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 func_params = {
-    "function": ["state_dependent_lqr"],
-    "dimension": [50],
-    "a": [0],
-    "b": [1],
-    "sigma": [1e-2],
-    "gamma": [1e-2],
-    "coeff_nl": [1],
-    "Q_scale": [10],
-    "seed": [42],
+    "function": ['linear-quadratic-ocp'],
+    "dimension": [50,20,10],
     "interval_size": [1],
-    "l2_data": [True],
-    "gradient_provided": [True]
+    "l2_data": [False],
+    "continuous": [True],
+    "bandwidth": [1],
+    "seed": [42],
+    "ocp_problem_type": ['general']
 }
 
 collection = OptimalValueFunctionCollection()
 
 network_params = {
-    "layersize": [32],
-    "activation_function":
-        ['sigmoid'],
-    "compositional_structure": [True],
-    "graph_distance": [3],
-    "data_size": [1024],
+    "layersize": [256],
+    "test_size": [2**17],
+    "activation_function": ['sigmoid'],
+    "compositional_structure": [False], 
+    "graph_distance": [1],
+    "data_size": [2**17], 
     "batch_size": [64],
-    "test_size": [1024],
-    "learning_rate": ["default"],
-    "weight_loss_grad": [10000],
-    "weight_loss_zero": [10],
-    "max_epochs": [600],
+    "learning_rate": ['default'],
+    "weight_loss_grad": [0],
+    "weight_loss_zero": [0],
+    "max_epochs": [1000],
     "min_epochs": [15],
     "optimizer": ['adam'],
-    "tolerance": [1e-7],
+    "tolerance": [1e-3],
     "factor_early_stopping": [np.inf],
 }
 
 max_data_size = max(network_params['data_size'])
-seed_value = 42
 
 for func_param in ParameterGrid(func_params):
     best_func_param = None
