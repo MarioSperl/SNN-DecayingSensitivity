@@ -180,7 +180,7 @@ class NeuralNetwork:
                 val_loss_mse = tf.reduce_mean(batch_val_losses)
 
                 self.logger.info(
-                    f"Step {step_counter:2d} and epoch {epoch+1:4d}:    " +
+                    f"Step {step_counter:2d} and epoch {epoch:4d}:    " +
                     "Training: samples " +
                     f"{(step+1)*self.param['batch_size']:7d}, " +
                     f"mse-loss {float(training_loss_mse):10.6f}    " +
