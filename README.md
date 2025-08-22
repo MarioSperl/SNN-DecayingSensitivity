@@ -96,7 +96,7 @@ Finally, we have the parameters that describe the network to be trained:
 | weight_loss_grad | (`float`) Weight for loss of gradient |
 | weight_loss_zero | (`float`) Weight for loss at zero |
 | max_epochs | (`int`) Maximum number of training epochs |
-| min_epochs | (`int`) Minimum number of training epochs |
+| min_epochs | (`int`) Minimum number of training epochs (only applies for early stopping, not for validation tolerance) |
 | optimizer | (`obj`) Keras optimizer object |
 | tolerance | (`float`) Stop training if the error in the validation data is below this tolerance |
 | factor_early_stopping | (`float`) Factor controlling early stopping (`np.inf` disables early stopping) |
