@@ -70,13 +70,13 @@ Below we list the parameters specific to each custom function:
 | --------- | ----------- |
 | rho | (`float`) $\rho$ parameter for the sine-sine-rho custom function |
 
-***Function parameters specific to state-dependent LQR***
+***Function parameters specific to state-dependent LQR for optimal control problem associated with the Allen–Cahn equation***
 | Parameter | Description |
 | --------- | ----------- |
-| a | (`float`) $a$ parameter for the state-dependent LQR custom function |
-| b | (`float`) $b$ parameter for the state-dependent LQR custom function |
-| sigma | (`float`) $\sigma$ parameter for the state-dependent LQR custom function |
-| gamma | (`float`) $\gamma$ parameter for the state-dependent LQR custom function |
+| a | (`float`) lower bound of interval for spatial domain |
+| b | (`float`) upper bound of interval for spatial domain  |
+| sigma | (`float`) diffusion parameter |
+| gamma | (`float`) scaling parameter for matrix $R$ |
 | coeff_nl | (`float`) $\mathrm{nl}$ coefficient for the state-dependent LQR custom function |
 | Q_scale | (`float`) scaling parameter for matrix $Q$ |
 
