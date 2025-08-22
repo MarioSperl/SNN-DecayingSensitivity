@@ -1,0 +1,5 @@
+numpy==1.26.4
+tensorflow==2.10.0
+matplotlib==3.9.2
+names_generator==0.2.0
+tomli==2.2.1
