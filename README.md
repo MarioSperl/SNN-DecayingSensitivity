@@ -96,7 +96,7 @@ Finally, we have the parameters that describe the network to be trained:
 | weight_loss_grad | (`float`) Weight for loss of gradient |
 | weight_loss_zero | (`float`) Weight for loss at zero |
 | max_epochs | (`int`) Maximum number of training epochs |
-| min_epochs | (`int`) Minimum number of training epochs |
+| min_epochs | (`int`) Minimum number of training epochs (only applies for early stopping, not for validation tolerance) |
 | optimizer | (`obj`) Keras optimizer object |
 | tolerance | (`float`) Stop training if the error in the validation data is below this tolerance |
 | factor_early_stopping | (`float`) Factor controlling early stopping (`np.inf` disables early stopping) |
@@ -140,4 +140,15 @@ demonstrate how to plot the $P$ matrix.
 Here we list the training examples found in the paper:
 | File     | Purpose |
 | -------- | ------- |
-| [Figure5_200dimOCP.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 5* |
+| [Figure5_200dimLQR.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 5* |
+| [Figure6_FullyConnected.py](examples/Figure6_FullyConnected.py)    | Training project associated to *Figure 6* |
+| [Figure6_Separable.py](examples/Figure6_Separable.py)    | Training project associated to *Figure 6* |
+| [Figure11_Exp.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 11* |
+| [Figure12_Poly.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 12* |
+| [Figure13_state_dependent_LQR.py](examples/Figure5_200dimOCP.py)    | Training project associated to *Figure 13* |
+| [Table1_leftColumn.py](examples/Table1_leftColumn.py)    | Training project associated to *Table 1* |
+| [Table1_rightColumn.py](examples/Table1_rightColumn.py)    | Training project associated to *Table 1* |
+| [Table2_FullyConnected.py](examples/Table2_FullyConnected.py)    | Training project associated to *Table 2* |
+| [Table2_Separable.py](examples/Table2_Separable.py)    | Training project associated to *Table 2* |
+
+Note that the results in Figure 8 cannot be reproduced by running a single training script; instead, the S-NN architecture must be trained separately for each dimension to minimize the number of required neurons and parameters. 
