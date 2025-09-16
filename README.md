@@ -124,7 +124,7 @@ boilerplate for any training project:
 | -------- | ------- |
 | [train_custom_functions.py](training/train_custom_functions.py)    | This file shows the entire workflow of how to train a batch of training projects under a set of parameters |
 | [train_ocp.py](training/train_ocp.py)    | Same as `train_custom_functions.py` but with an OCP problem |
-| [train_ocp.py](training/train_state_dependent_lqr.py)    | Same as `train_custom_functions.py` but with a state-dependent LQR problem |
+| [train_state_dependent_lqr.py](training/train_state_dependent_lqr.py)    | Same as `train_custom_functions.py` but with a state-dependent LQR problem |
 
 Similarly, in `testing/` we demonstrate how to load an existing training project
 for further testing. This is done for both a custom function project and an OCP project.
