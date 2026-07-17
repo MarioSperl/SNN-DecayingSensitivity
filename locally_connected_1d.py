@@ -1,0 +1,116 @@
+"""
+The idea of implementing an SNN layer with the locally connected 1D layer is
+that we form 'patches' of size graph_distance + 1 from the input layer. Each
+patch forms a dense connection with the associated sublayer. This connection is
+done with the usual h = Wx formula, so for each patch we have a weight matrix.
+
+Note that to use this idea, we have to satisfy this size relation:
+
+    input_size = n_sublayers + graph_distance.
+
+However, we want to make it possible that the last sublayer forms a connection
+with the last patch whose size is smaller than graph_distance + 1. In this case
+we just pad that patch with zeros. There will be unused weights, but they should
+make up a small portion of the total number of parameters. The actual relation
+that we must really satisfy is therefore
+
+    input_size \in [n_sublayers, n_sublayers + graph_distance].
+
+In practice we just pad the input vector into maximum possible size to keep
+things simple.
+
+As an example, for 100 input neurons and a graph size of 4, the patches look
+like this:
+
+    [x0, x1, x2, x3, x4]
+    [x1, x2, x3, x4, x5]
+    ...
+    [x94, x95, x97, x98, x99]
+
+    The patch tensor is then of shape (96, n_batches, 5).
+
+We need 96 unique weight matrices, one for each patch. Let's say the sublayer
+size is 16. This weight matrix is therefore of shape (96, 5, 16).
+
+Now we perform tf.matmul. Each of the 96 patches is multiplied with the
+associated weight matrix ((n_batches, 5) times (5, 16)). The result is the
+output matrix of shape (98, n_batches, 16). This is finally flattened into a
+single column vector for each batch, typical in how feedforward networks are
+constructed. The output shape is then (n_batches, 16 * 96).
+
+This approach avoids concatenation of dense layers while incurring minimal
+excess weights.
+"""
+
+import tensorflow as tf
+import keras
+
+class SNNLocallyConnected1D(keras.layers.Layer):
+    def __init__(self, graph_distance, n_sublayers, sublayer_size, **kwargs):
+        super().__init__(**kwargs)
+        self.graph_distance = graph_distance
+        self.n_sublayers = n_sublayers
+        self.sublayer_size = sublayer_size
+
+        self.kernel_size = graph_distance + 1
+
+    def build(self, input_shape):
+        self.weight = self.add_weight(
+            shape=(self.n_sublayers, self.kernel_size, self.sublayer_size),
+            initializer="glorot_uniform",
+            trainable=True,
+            name="weight"
+        )
+
+        self.bias = self.add_weight(
+            shape=(self.n_sublayers, self.sublayer_size),
+            initializer="zeros",
+            trainable=True,
+            name="bias"
+        )
+
+        super().build(input_shape)
+
+    def call(self, inputs):
+        input_size = tf.shape(inputs)[1]
+
+        padding_needed = self.n_sublayers + self.graph_distance - input_size
+        
+        # Pad along the input_size dimension (dimension 1)
+        padded_inputs = tf.pad(
+            inputs, [[0, 0], [0, padding_needed]],
+            mode='CONSTANT', constant_values=0)
+
+        # The patch extractor needs the input to be 4D
+        x = tf.expand_dims(padded_inputs, axis=-1) 
+        x = tf.expand_dims(x, axis=-1)
+
+        # Construct the patches
+        patches = tf.image.extract_patches(
+            images=x,
+            sizes=[1, self.kernel_size, 1, 1],
+            strides=[1, 1, 1, 1],
+            rates=[1, 1, 1, 1],
+            padding='VALID'
+        )
+
+        # Squeeze out dimension 2
+        # Shape: (n_batches, n_sublayers, kernel_size)
+        patches = tf.squeeze(patches, axis=2)
+
+        # Swap dimension 0 and 1 
+        # Shape: (n_sublayers, n_batches, kernel_size)
+        patches = tf.transpose(patches, perm=[1, 0, 2])
+
+        
+        # Perform matmul and add the biases
+        output = tf.matmul(patches, self.weight) 
+        output = output + tf.expand_dims(self.bias, axis=1)
+
+        # Shape: (n_batches, n_sublayers, sublayer_size)
+        output = tf.transpose(output, perm=[1, 0, 2])
+
+        total_flat_neurons = self.n_sublayers * self.sublayer_size
+
+        # Output shape: (n_batches, n_sublayers * sublayer_size)
+        return tf.reshape(output, [tf.shape(inputs)[0], total_flat_neurons])
