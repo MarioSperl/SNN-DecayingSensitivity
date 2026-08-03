@@ -44,6 +44,7 @@ network_params = {
     "test_size": [2**19],
     "activation_function": ['sigmoid'],
     "compositional_structure": [True], 
+    "use_locally_connected_1d": [False, True], 
     "graph_distance": [10],
     "data_size": [2**17, 2**16, 2**15, 2**14, 2**13, 2**12, 2**11, 2**10, 2**9, 2**8], 
     "batch_size": [64],
