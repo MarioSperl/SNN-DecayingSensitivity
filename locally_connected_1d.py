@@ -19,7 +19,7 @@ that we must really satisfy is therefore
 In practice we just pad the input vector into maximum possible size to keep
 things simple.
 
-As an example, for 100 input neurons and a graph size of 4, the patches look
+As an example, for 100 input neurons and a graph distance of 4, the patches look
 like this:
 
     [x0, x1, x2, x3, x4]
@@ -27,16 +27,31 @@ like this:
     ...
     [x94, x95, x97, x98, x99]
 
-    The patch tensor is then of shape (96, n_batches, 5).
+    The patch tensor is then of shape (n_sublayers, batch_size, kernel_size).
 
-We need 96 unique weight matrices, one for each patch. Let's say the sublayer
-size is 16. This weight matrix is therefore of shape (96, 5, 16).
+We need n_sublayers unique weight matrices, one for each patch. This weight
+matrix is therefore of shape
 
-Now we perform tf.matmul. Each of the 96 patches is multiplied with the
-associated weight matrix ((n_batches, 5) times (5, 16)). The result is the
-output matrix of shape (98, n_batches, 16). This is finally flattened into a
-single column vector for each batch, typical in how feedforward networks are
-constructed. The output shape is then (n_batches, 16 * 96).
+    (n_sublayers, kernel_size, sublayer_size).
+
+Now we perform tf.matmul. Each of the n_sublayers patches is multiplied with the
+associated weight matrix:
+
+                All the patches
+    (n_sublayers, batch_size, kernel_size)
+
+    times
+                 Weight matrix
+    (n_sublayers, kernel_size, sublayer_size).
+
+The result is the output tensor of shape
+
+    (n_sublayers, batch_size, sublayer_size).
+
+This is finally flattened into a single column vector for each batch, typical in
+how feedforward networks are constructed. The output shape is then
+
+    (batch_size, sublayer_size * n_sublayers).
 
 This approach avoids concatenation of dense layers while incurring minimal
 excess weights.
@@ -95,11 +110,11 @@ class SNNLocallyConnected1D(keras.layers.Layer):
         )
 
         # Squeeze out dimension 2
-        # Shape: (n_batches, n_sublayers, kernel_size)
+        # Shape: (batch_size, n_sublayers, kernel_size)
         patches = tf.squeeze(patches, axis=2)
 
         # Swap dimension 0 and 1 
-        # Shape: (n_sublayers, n_batches, kernel_size)
+        # Shape: (n_sublayers, batch_size, kernel_size)
         patches = tf.transpose(patches, perm=[1, 0, 2])
 
         
@@ -107,10 +122,10 @@ class SNNLocallyConnected1D(keras.layers.Layer):
         output = tf.matmul(patches, self.weight) 
         output = output + tf.expand_dims(self.bias, axis=1)
 
-        # Shape: (n_batches, n_sublayers, sublayer_size)
+        # Shape: (batch_size, n_sublayers, sublayer_size)
         output = tf.transpose(output, perm=[1, 0, 2])
 
         total_flat_neurons = self.n_sublayers * self.sublayer_size
 
-        # Output shape: (n_batches, n_sublayers * sublayer_size)
+        # Output shape: (batch_size, n_sublayers * sublayer_size)
         return tf.reshape(output, [tf.shape(inputs)[0], total_flat_neurons])
