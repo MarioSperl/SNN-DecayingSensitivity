@@ -2,11 +2,28 @@
 The idea of implementing an SNN layer with the locally connected 1D layer is
 that we form 'patches' of size graph_distance + 1 from the input layer. Each
 patch forms a dense connection with the associated sublayer. This connection is
-done with the usual h = Wx formula, so for each patch we have a weight matrix.
+done with the usual H = XW formula, so for each patch we have a weight matrix,
+and we multiply each patch with each weight matrix simultaneously to get the
+output of the separable structured neural network.
 
-Note that to use this idea, we have to satisfy this size relation:
+Consider an input patch of size kernel_size (borrowing terminology from 
+convolution) with a batch size of batch_size. The dense connection between this
+patch and the associated sublayer is then
 
-    input_size = n_sublayers + graph_distance.
+                X
+    (batch_size, kernel_size)
+
+    times
+                W
+    (kernel_size, sublayer_size)
+
+    =
+        Output of this patch
+    (batch_size, sublayer_size).
+
+To use this idea, we have to satisfy this size relation:
+
+    input_size = n_sublayers + graph_distance.      (1)
 
 However, we want to make it possible that the last sublayer forms a connection
 with the last patch whose size is smaller than graph_distance + 1. In this case
@@ -16,8 +33,7 @@ that we must really satisfy is therefore
 
     input_size \in [n_sublayers, n_sublayers + graph_distance].
 
-In practice we just pad the input vector into maximum possible size to keep
-things simple.
+We just pad the input vector into maximum possible size to satisfy equation (1).
 
 As an example, for 100 input neurons and a graph distance of 4, the patches look
 like this:
@@ -44,8 +60,8 @@ associated weight matrix:
                  Weight matrix
     (n_sublayers, kernel_size, sublayer_size).
 
-The result is the output tensor of shape
-
+    =
+                  Full output
     (n_sublayers, batch_size, sublayer_size).
 
 This is finally flattened into a single column vector for each batch, typical in
