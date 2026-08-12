@@ -145,3 +145,14 @@ class SNNLocallyConnected1D(keras.layers.Layer):
 
         # Output shape: (batch_size, n_sublayers * sublayer_size)
         return tf.reshape(output, [tf.shape(inputs)[0], total_flat_neurons])
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "graph_distance": self.graph_distance,
+            "n_sublayers": self.n_sublayers,
+            "sublayer_size": self.sublayer_size,
+            "kernel_size": self.kernel_size,
+        })
+
+        return config

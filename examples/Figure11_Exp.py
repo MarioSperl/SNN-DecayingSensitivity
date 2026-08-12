@@ -45,6 +45,7 @@ network_params = {
     "layersize": [16],
     "activation_function": ["sigmoid"],
     "compositional_structure": [True],
+    "use_locally_connected_1d": [False, True], 
     "graph_distance": [5],
     "data_size": [8192], 
     "batch_size": [64],
