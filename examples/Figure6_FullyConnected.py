@@ -45,7 +45,8 @@ network_params = {
     "activation_function": ['sigmoid'],
     "compositional_structure": [False], 
     "graph_distance": [10],
-    "data_size": [2**17, 2**16, 2**15, 2**14, 2**13, 2**12, 2**11, 2**10, 2**9, 2**8], 
+    # "data_size": [2**17, 2**16, 2**15, 2**14, 2**13, 2**12, 2**11, 2**10, 2**9, 2**8], 
+    "data_size": [2**8],
     "batch_size": [64],
     "learning_rate": ['default'],
     "weight_loss_grad": [0.5],
@@ -55,6 +56,7 @@ network_params = {
     "optimizer": ['adam'],
     "tolerance": [1e-3],
     "factor_early_stopping": [np.inf],
+    "enable_LBFGS": [True]
 }
 
 max_data_size = max(network_params['data_size'])

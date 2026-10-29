@@ -240,11 +240,6 @@ class NeuralNetwork:
         timediff = time2 - time1
         self.logger.info('time for learning: %fs' % timediff)
 
-        # Invoke L-BFGS
-        if self.param['enable_LBFGS']:
-            print('Contunuing training with L-BFGS...')
-            self.run_lbfgs()
-
         # test training result with test data  
         test_dataset = self.test_dataset_raw.shuffle(
             buffer_size=1024).batch(self.param["batch_size"])
@@ -263,8 +258,28 @@ class NeuralNetwork:
             f"mse-loss {float(test_loss_mse):10.6f}"
         )
 
+        # Invoke L-BFGS
+        if self.param['enable_LBFGS']:
+            print('Contunuing training with L-BFGS...')
+            self.run_lbfgs()
+
+            print('Post-L-BFGS test validation')
+
+            for test_step, (x_batch_test, V_batch_test) in \
+                                                enumerate(test_dataset):
+                nn_output_test = self.model(x_batch_test, training = True)
+                loss_value = mean_squared_loss(V_batch_test, nn_output_test)
+                batch_test_losses.append(loss_value)
+
+            test_loss_mse = np.mean(batch_test_losses)
+            self.logger.info('-----------------------')
+            self.logger.info(
+                "Testing the trained model: samples " +
+                f"{self.param['test_size']:7d}, " + 
+                f"mse-loss {float(test_loss_mse):10.6f}"
+            )
+
         return [test_loss_mse, tolerance_reached, early_training_stop]  
-    
 
     def save_model(self, name):
         self.model.save(name)
