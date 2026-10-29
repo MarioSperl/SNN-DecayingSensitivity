@@ -11,7 +11,11 @@ import gc
 import warnings
 warnings.filterwarnings("ignore", message=".*Compiled the loaded model.*")
 
-from auxiliary import *
+# For L-BFGS
+import tensorflow_probability as tfp
+
+from auxiliary import  mean_squared_loss, \
+                                    mean_squared_losses_with_derivative_zero
 from proj_param import ProjectParam
 from locally_connected_1d import SNNLocallyConnected1D
 
@@ -236,6 +240,10 @@ class NeuralNetwork:
         timediff = time2 - time1
         self.logger.info('time for learning: %fs' % timediff)
 
+        # Invoke L-BFGS
+        if self.param['enable_LBFGS']:
+            print('Contunuing training with L-BFGS...')
+            self.run_lbfgs()
 
         # test training result with test data  
         test_dataset = self.test_dataset_raw.shuffle(
@@ -260,3 +268,68 @@ class NeuralNetwork:
 
     def save_model(self, name):
         self.model.save(name)
+
+    def run_lbfgs(self):
+        # Set up model parameters
+        variables = self.model.trainable_variables
+        shapes = [v.shape for v in variables]
+        sizes = [tf.size(v) for v in variables]
+        
+        # Extract training data
+        x, V, gradV = next(iter(self.train_dataset_raw.batch(
+            len(self.train_dataset_raw)
+        )))
+
+        # This function takes the parameter vector and assign the parameters
+        # to the model
+        def assign_parameters(position):
+            parts = tf.split(position, sizes)
+            for variable, part, shape in zip(variables, parts, shapes):
+                variable.assign(tf.reshape(part, shape))
+
+        def loss_and_gradient(position):
+            assign_parameters(position)
+
+            with tf.GradientTape() as tape_param: 
+                with tf.GradientTape() as tape_x: 
+                    tape_x.watch(x)
+                    # evaluate model 
+                    nn_output = self.model(x, training=True)
+
+                # evaluate x-derivative
+                gradx = tape_x.gradient(nn_output, x)
+
+                with tf.GradientTape() as tape_0:
+                    zeros = tf.zeros_like(x)
+                    tape_0.watch(zeros)
+
+                    nn_output_zero = self.model(zeros, training = False)
+
+                grad_zero = tape_0.gradient(nn_output_zero, zeros)
+
+                loss = mean_squared_losses_with_derivative_zero(
+                    V, nn_output, gradV, gradx, nn_output_zero, grad_zero)
+                loss = loss[0] + \
+                self.param["weight_loss_grad"] * loss[1] + \
+                self.param["weight_loss_zero"] * loss[2]
+
+            gradients = tape_param.gradient(
+                loss, self.model.trainable_weights)
+
+            flat_gradient = tf.concat(
+                [tf.reshape(g, [-1]) for g in gradients], axis=0
+            )
+
+            return loss, flat_gradient
+
+        initial_position = tf.concat(
+            [tf.reshape(v, [-1]) for v in variables], axis=0
+        )
+
+        results = tfp.optimizer.lbfgs_minimize(
+            value_and_gradients_function=loss_and_gradient,
+            initial_position=initial_position,
+            max_iterations=100,
+        )
+
+        assign_parameters(results.position)
