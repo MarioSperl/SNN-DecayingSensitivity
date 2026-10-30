@@ -260,10 +260,10 @@ class NeuralNetwork:
 
         # Invoke L-BFGS
         if self.param['enable_LBFGS']:
-            print('Continuing training with L-BFGS...')
+            self.logger.info('Continuing training with L-BFGS...')
             self.run_lbfgs()
 
-            print('\nPost-L-BFGS test validation:')
+            self.logger.info('\nPost-L-BFGS test validation:')
 
             for test_step, (x_batch_test, V_batch_test) in \
                                                 enumerate(test_dataset):
